@@ -1,6 +1,10 @@
 import cv2
+from flask import Flask, request
+import requests
 import numpy as np
 from keras._tf_keras.keras.models import load_model
+import time
+import threading
 
 def preprocess_frame(frame, target_size=(37, 50), color_mode='grayscale'):
     if color_mode == 'grayscale':
@@ -29,6 +33,10 @@ if not cap.isOpened():
     print("Error: Could not open webcam.")
     exit()
 
+def delayed_function():
+    time.sleep(0.5)  # Delay for 5 seconds
+    print("Function executed after delay")
+
 while True:
     ret, frame = cap.read()
     
@@ -38,6 +46,8 @@ while True:
 
     # Predict the class of the frame
     predicted_class = predict_frame(model, frame)
+    output = requests.post('http://127.0.0.1:5000/predict',data={"class": predicted_class})
+
     
     # Display the predicted class on the frame
     cv2.putText(frame, f"Class: {predicted_class}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -48,6 +58,12 @@ while True:
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+    thread = threading.Thread(target=delayed_function)
+    thread.start()
+
+
+
 
 # Release the webcam and close the window
 cap.release()

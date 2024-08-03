@@ -1,4 +1,8 @@
 .mp3
+.mp4
+
+/train 
+/test 
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

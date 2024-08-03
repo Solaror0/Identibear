@@ -86,8 +86,9 @@ def mp4_to_jpg_with_labels(video_path, label=1, test_size=0.2):
     print(f"Saved {len(train_frames)} frames to {train_images_dir} and {len(test_frames)} frames to {test_images_dir}")
 
 def add_lfw_to_directories(test_size=0.2):
+    
     # Fetch the LFW dataset
-    lfw_people = fetch_lfw_people(min_faces_per_person=5, resize=0.4)
+    lfw_people = fetch_lfw_people(min_faces_per_person=500, resize=0.4)
 
     # Define directories under the current directory
     current_dir = os.getcwd()
@@ -101,17 +102,23 @@ def add_lfw_to_directories(test_size=0.2):
 
     # Print the number of samples fetched
     print(f"Total LFW samples: {n_samples}")
+ 
 
     # Generate a list of indices
     indices = np.arange(n_samples)
 
     # Split indices into training and testing sets
     train_indices, test_indices = train_test_split(indices, test_size=test_size, random_state=42)
-
+    
     # Save LFW images and labels to the training directory
+    counter = 0
     for idx in train_indices:
         output_image_file = os.path.join(train_images_dir, f"{n_samples + idx:04d}.jpg")
         output_label_file = os.path.join(train_labels_dir, f"{n_samples + idx:04d}.txt")
+
+        print(n_samples)
+        print(lfw_people.images.shape)
+        
 
         # Resize the LFW image
         img = (lfw_people.images[idx] * 255).astype(np.uint8)
@@ -152,10 +159,6 @@ def add_lfw_to_directories(test_size=0.2):
 
 # Example usage
 def create_data(videos):
-
     mp4_to_jpg_with_labels(videos)
     add_lfw_to_directories()
 
-videos = ['vid.mp4', 'vid2.mp4']
-
-create_data(videos)

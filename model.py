@@ -7,13 +7,7 @@ from keras._tf_keras.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, D
 from keras._tf_keras.keras.optimizers import Adam
 from keras._tf_keras.keras.preprocessing.image import load_img, img_to_array
 
-img_path = "th_wu_man.jpg"
-img = load_img(img_path, target_size=(37, 50))  # Resize the image
-img_array = img_to_array(img)  # Convert the image to an array
-img_array = img_array 
 
-# Add batch dimension
-img_array = np.expand_dims(img_array, axis=0)
 
 def preprocess_image(image_path, target_size=(37, 50), color_mode='grayscale'):
     img = cv2.imread(image_path)
@@ -64,56 +58,48 @@ def load_images_and_labels(image_dir, label_dir, target_size=(37, 50), color_mod
     return images, labels
 
 # Define directories
+
 train_images_dir = os.path.join(os.getcwd(), 'train', 'images')
 train_labels_dir = os.path.join(os.getcwd(), 'train', 'labels')
 test_images_dir = os.path.join(os.getcwd(), 'test', 'images')
 test_labels_dir = os.path.join(os.getcwd(), 'test', 'labels')
 
-# Load images and labels
-X_train, y_train = load_images_and_labels(train_images_dir, train_labels_dir)
-X_test, y_test = load_images_and_labels(test_images_dir, test_labels_dir)
-
-# Normalize pixel values to [0, 1]
-X_train = X_train / 255.0
-X_test = X_test / 255.0
-
-# One-hot encode the labels
-num_classes = len(np.unique(y_train))
-y_train = np.eye(num_classes)[y_train]
-y_test = np.eye(num_classes)[y_test]
 
 
 # Define the CNN model
-model = Sequential()
-model.add(RandomBrightness(0.3))
-model.add(RandomRotation(0.3))
-model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(37, 50, 1)))  # Input shape for grayscale images
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Flatten())
-model.add(Dense(128, activation='relu'))
-model.add(Dropout(0.25))
-model.add(Dense(3, activation='softmax'))  # Adjust output layer for number of classes
+def train_model(train_images_dir, train_labels_dir):
+    X_train, y_train = load_images_and_labels(os.path.join(os.getcwd(), 'train', 'images'), os.path.join(os.getcwd(), 'train', 'labels'))
+   
+
+
+    X_train = X_train / 255.0
+  
+
+    num_classes = len(np.unique(y_train))
+    y_train = np.eye(num_classes)[y_train]
+    model = Sequential()
+    model.add(RandomBrightness(0.3))
+    model.add(RandomRotation(0.3))
+    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(37, 50, 1)))  # Input shape for grayscale images
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.25))
+    model.add(Dense(2, activation='softmax'))  # Adjust output layer for number of classes
+    optim = Adam(learning_rate=0.0025)
+    model.compile(optimizer=optim, loss='categorical_crossentropy', metrics=['accuracy'])
+    print(X_train.shape)
+    print(y_train.shape)
+    model.fit(X_train, y_train, epochs=500, batch_size=32, shuffle=True, verbose=2)
+    return model
+
+
 
 
 #model = load_model('model.keras')
-model.summary()
+
 # Compile the model
 
-optim = Adam(learning_rate=0.0025)
-model.compile(optimizer=optim, loss='categorical_crossentropy', metrics=['accuracy'])
-
-# Train the model
-model.fit(X_train, y_train, epochs=500, batch_size=16, shuffle=True)
-model.evaluate(X_test, y_test)
-
-image_path = 'th_wu_man.jpg'  # Replace with the path to the image you want to predict
-
-
-
-
-predicted_class = predict_image(model, image_path)
-print(predicted_class)
-
-model.save("model.keras")
+# train_model(train_images_dir,train_labels_dir).save("model.keras")

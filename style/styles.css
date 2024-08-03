@@ -8,7 +8,9 @@
     border: 2px solid #2197db;
     background-color: blue;
 }
-
+#identibear{
+    font-size: 4rem;
+}
 [data-testid="stHeader"]{
     background-color: #00011b;
     
