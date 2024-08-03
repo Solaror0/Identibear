@@ -6,7 +6,8 @@ import jsonify
 import cv2
 import tensorflow as tf
 import keras
-
+from gtts import gTTS
+from playsound import playsound
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'uploads/'
@@ -32,6 +33,10 @@ def my_form_post():
     processedText = name.lower()+relationship.lower()
     listOfNames.append(processedText)
     print(listOfNames)
+    text = gTTS(text=name+" is your " + relationship,lang='en', slow=False)
+    text.save("audio.mp3")
+    playsound("audio.mp3",True)
+    os.remove('audio.mp3')
     return " "
 
 
@@ -63,7 +68,6 @@ def upload_file():
 # @app.route('/train')
 # def train():
 #     model.keras.train()
-
 
 
 if __name__ == '__main__':
