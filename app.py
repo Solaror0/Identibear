@@ -8,7 +8,7 @@ with open('./style/styles.css') as f:
 
 st.title("Identibear")
 
-uploaded_file = st.file_uploader("Upload a video", type=["mp4", "mov", "avi", "mkv"])
+uploaded_file = st.file_uploader("Upload Video of Target Individual", type=["mp4", "mov", "avi", "mkv"])
 
 if uploaded_file:
     st.video(uploaded_file)
@@ -25,14 +25,16 @@ if uploaded_file:
 col1, col2 = st.columns(2)
 
 with col1:
-    name = st.text_input("Person One:")
+    name = st.text_input("Name of Individual")
+    date = st.date_input("Date you met [OPTIONAL]:")
 
 with col2:
-    relationship = st.text_input("Relationship One:")
+    relationship = st.text_input("Relationship with Individual")
+    sigMemory = st.text_input("A Significant Memory [OPTIONAL]:")
 
 uploadButton = st.button("Upload")
 if uploadButton:
-    response = requests.post('http://127.0.0.1:5000/infoUpload',data={'name': name, 'relationship': relationship})
+    response = requests.post('http://127.0.0.1:5000/infoUpload',data={'name': name, 'relationship': relationship, 'dateOfMeeting':date,'sigMemory':sigMemory})
 
     if response.status_code == 200:
         st.success('File successfully uploaded to the Flask server.')
@@ -55,5 +57,5 @@ def sidebar_bg(main_bg):
      """,
     unsafe_allow_html=True,
 )
-bg = "./assets/dementia.png"
+bg = "./assets/dementia-25d.png"
 sidebar_bg(bg)

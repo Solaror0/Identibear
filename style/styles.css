@@ -11,10 +11,12 @@
 
 [data-testid="stHeader"]{
     background-color: #00011b;
+    
 }
 
 [data-testid="stAppViewBlockContainer"]{
     margin-top: 10vh;
-    background-color: rgba(99, 155, 203, 0.2);
+    background-color: rgba(4, 2, 26, 0.73);
     border-radius: 20px;
+    
 }

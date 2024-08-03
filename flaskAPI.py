@@ -16,7 +16,39 @@ openai.api_key = 'sk-proj-WKo310zT9tBTCw42hEDuklXQAHfFWtvY6M5k3REW6q9uKb18nvSZEI
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = {'mp4', 'mov', 'avi', 'mkv'}  # Add other video formats as needed
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-listOfNames = ["stranger","andy","james","josh","junnur"]
+
+dictOfNames = {
+0:{
+    "name":"stranger",
+    "relationship":"stranger",
+    "dateOfMeeting":" ",
+    "sigMemory": " "
+},
+1:{
+ "name":"andy",
+    "relationship":"friend",
+    "dateOfMeeting":"2024/08/03",
+    "sigMemory": " "
+},
+2:{
+    "name":"josh",
+    "relationship":"friend",
+    "dateOfMeeting":"2024/08/03",
+    "sigMemory": " "
+},
+3:{
+    "name":"james",
+    "relationship":"friend",
+    "dateOfMeeting":"2024/08/03",
+    "sigMemory": " "
+},
+4:{
+    "name":"junnur",
+    "relationship":"friend",
+    "dateOfMeeting":"2024/08/03",
+    "sigMemory": " "
+}
+}
 
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -33,13 +65,21 @@ def default():
 def my_form_post():
     name = request.form.get('name', '')
     relationship = request.form.get('relationship', '')
-    processedText = name.lower()+relationship.lower()
-    listOfNames.append(processedText)
-    print(listOfNames)
+    dateOfMeeting = request.form.get('dateOfMeeting',' ')
+    sigMemory = request.form.get('sigMemory','')
+
+    name = name.lower()
+    relationship = relationship.lower()
+
+    dictOfNames[dictOfNames.__len__] = {"name":name,"relationship":relationship,"dateOfMeeting":dateOfMeeting,"sigMemory":sigMemory}
+    print(dictOfNames)
+
     text = gTTS(text=name+" is your " + relationship,lang='en', slow=False)
     text.save("audio.mp3")
     playsound("audio.mp3",True)
-    os.remove('audio.mp3')
+    os.remove('audio.mp3') # TTS TEST, save later
+
+    train()
     return " "
 
 
@@ -68,9 +108,9 @@ def upload_file():
     
     return jsonify({'error': 'File type not allowed'}), 400
 
-# @app.route('/train')
-# def train():
-#     model.keras.train()
+def train():
+    kmodel = keras.saving.load_model("model.keras")
+    #kmodel.train()
 
 
 if __name__ == '__main__':
