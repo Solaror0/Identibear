@@ -20,9 +20,18 @@ if uploaded_file:
 col1, col2 = st.columns(2)
 
 with col1:
-    title = st.text_input("Person One:")
-    st.write("The current person is", title)
+    name = st.text_input("Person One:")
+    st.write("The current person is", name)
 
 with col2:
-    title = st.text_input("Relationship One:")
-    st.write("The current relationship is", title)
+    relationship = st.text_input("Relationship One:")
+    st.write("The current relationship is", relationship)
+
+uploadButton = st.button("Upload")
+if uploadButton:
+    response = requests.post('http://127.0.0.1:5000/infoUpload',data={'name': name, 'relationship': relationship})
+
+    if response.status_code == 200:
+        st.success('File successfully uploaded to the Flask server.')
+    else:
+        st.error('Failed to upload file to the Flask server.')
