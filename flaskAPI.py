@@ -12,43 +12,43 @@ import openai
 
 
 app = Flask(__name__)
-openai.api_key = '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'
+# openai.api_key = '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'
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = {'mp4', 'mov', 'avi', 'mkv'}  # Add other video formats as needed
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-dictOfNames = {
-0:{
-    "name":"stranger",
-    "relationship":"stranger",
-    "dateOfMeeting":" ",
-    "sigMemory": " "
-},
-1:{
- "name":"andy",
-    "relationship":"friend",
-    "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
-},
-2:{
-    "name":"josh",
-    "relationship":"friend",
-    "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
-},
-3:{
-    "name":"james",
-    "relationship":"friend",
-    "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
-},
-4:{
-    "name":"junnur",
-    "relationship":"friend",
-    "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
-}
-}
+# dictOfNames = {
+# 0:{
+#     "name":"stranger",
+#     "relationship":"stranger",
+#     "dateOfMeeting":" ",
+#     "sigMemory": " "
+# },
+# 1:{
+#  "name":"andy",
+#     "relationship":"friend",
+#     "dateOfMeeting":"2024/08/03",
+#     "sigMemory": " "
+# },
+# 2:{
+#     "name":"josh",
+#     "relationship":"friend",
+#     "dateOfMeeting":"2024/08/03",
+#     "sigMemory": " "
+# },
+# 3:{
+#     "name":"james",
+#     "relationship":"friend",
+#     "dateOfMeeting":"2024/08/03",
+#     "sigMemory": " "
+# },
+# 4:{
+#     "name":"junnur",
+#     "relationship":"friend",
+#     "dateOfMeeting":"2024/08/03",
+#     "sigMemory": " "
+# }
+# }
 
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -70,24 +70,25 @@ def my_form_post():
 
     name = name.lower()
     relationship = relationship.lower()
+    print(name, relationship, dateOfMeeting, sigMemory)
 
-    dictOfNames[dictOfNames.__len__] = {"name":name,"relationship":relationship,"dateOfMeeting":dateOfMeeting,"sigMemory":sigMemory}
-    print(dictOfNames)
+    # dictOfNames[dictOfNames.__len__] = {"name":name,"relationship":relationship,"dateOfMeeting":dateOfMeeting,"sigMemory":sigMemory}
+    # print(dictOfNames)
 
-    text = gTTS(text=name+" is your " + relationship,lang='en', slow=False)
-    text.save("audio.mp3")
-    playsound("audio.mp3",True)
-    os.remove('audio.mp3') # TTS TEST, save later
+    # text = gTTS(text=name+" is your " + relationship,lang='en', slow=False)
+    # text.save("audio.mp3")
+    # playsound("audio.mp3",True)
+    # os.remove('audio.mp3') # TTS TEST, save later
 
-    train()
+    # train()
     return " "
 
 
-def liveVideoInput():
-    kmodel = keras.saving.load_model("model.keras")
-    frame = cv2.VideoCapture(0)
-    kmodel.predict(frame)
-    list[kmodel.predict(frame)-1]
+# def liveVideoInput():
+#     kmodel = keras.saving.load_model("model.keras")
+#     frame = cv2.VideoCapture(0)
+#     kmodel.predict(frame)
+#     list[kmodel.predict(frame)-1]
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -101,16 +102,15 @@ def upload_file():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return jsonify({'message': 'File successfully uploaded'}), 200
+    # if file and allowed_file(file.filename):
+        # filename = secure_filename(file.filename)
+        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # return jsonify({'message': 'File successfully uploaded'}), 200
     
-    return jsonify({'error': 'File type not allowed'}), 400
-
-def train():
-    kmodel = keras.saving.load_model("model.keras")
-    #kmodel.train()
+    return " "
+# def train():
+#     kmodel = keras.saving.load_model("model.keras")
+#     #kmodel.train()
 
 
 if __name__ == '__main__':
