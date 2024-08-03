@@ -8,8 +8,11 @@ import tensorflow as tf
 import keras
 from gtts import gTTS
 from playsound import playsound
-app = Flask(__name__)
+import openai
 
+
+app = Flask(__name__)
+openai.api_key = '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'
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = {'mp4', 'mov', 'avi', 'mkv'}  # Add other video formats as needed
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
