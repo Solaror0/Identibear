@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-shadow: 2px 2px 4px #00011b;
+}
+
+[data-testid="stDecoration"] {
+    border: 2px solid #2197db;
+    background-color: blue;
+}
+
+[data-testid="stHeader"]{
+    background-color: #00011b;
+}
+
+[data-testid="stAppViewBlockContainer"]{
+    margin-top: 10vh;
+    background-color: rgba(99, 155, 203, 0.2);
+    border-radius: 20px;
+}
