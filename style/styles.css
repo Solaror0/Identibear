@@ -11,6 +11,13 @@
 #identibear{
     font-size: 4rem;
 }
+
+[data-testid="stImage"]{
+    width:30vh;
+    height:auto
+
+}
+
 [data-testid="stHeader"]{
     background-color: #00011b;
     

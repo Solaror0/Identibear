@@ -26,7 +26,12 @@ def set_background(main_bg):
 bg = "./assets/dementia-25d.png"
 set_background(bg)
 
-st.title("IdentiBear")
+title_col1, title_col2 = st.columns([1,4])
+with title_col1:
+    st.image("./assets/IdentibearLogo.png")
+
+with title_col2:
+     st.title("IdentiBear")   
 
 # uploaded_file = st.file_uploader("Upload Video of Target Individual", type=["mp4", "mov", "avi", "mkv"])
 # if uploaded_file:

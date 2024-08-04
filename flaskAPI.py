@@ -31,30 +31,30 @@ dictOfNames = {
     "name":"josh",
     "relationship":"friend",
     "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
+    "sigMemory": "When he walked around drunk hitting people"
    
 },
 2:{
     "name":"andy",
     "relationship":"friend",
     "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
+    "sigMemory": "When he stayed up all hackathon and couldn't speak coherently"
 },
 3:{
-    "name":"james",
-    "relationship":"friend",
-    "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
-},
-4:{
     "name":"junnur",
     "relationship":"friend",
     "dateOfMeeting":"2024/08/03",
-    "sigMemory": " "
+    "sigMemory": "When he joined the tiktok rizz partay"
+},
+4:{
+    "name":"james",
+    "relationship":"friend",
+    "dateOfMeeting":"2024/08/03",
+    "sigMemory": "Spent the whole night learning how to get rizzy"
 }
 }
 
-listOfNames = ["stranger","josh","andy","james","junnur"]
+listOfNames = ["stranger","josh","andy","junnur","james"]
 listOfPredicts = []
 
 
@@ -72,9 +72,6 @@ def delayed_function():
     time.sleep(5)  # Delay for 5 seconds
     print("Function executed after delay")
 
-
-
-    
 
 
 def TTSandAPI(strings):
