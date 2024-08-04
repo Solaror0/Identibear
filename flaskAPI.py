@@ -162,8 +162,8 @@ def webcamPredict():
             listOfPredicts.clear()
            
 
-    if len(listOfPredicts) > 20 and not("0" in listOfPredicts):  
-        personInfoDict = (dictOfNames[int(listOfPredicts[12])])
+    if len(listOfPredicts) > 10 and not("0" in listOfPredicts):  
+        personInfoDict = (dictOfNames[int(listOfPredicts[8])])
         name = personInfoDict["name"]
         relationship = personInfoDict["relationship"]
         dateOfMeeting = personInfoDict["dateOfMeeting"]
