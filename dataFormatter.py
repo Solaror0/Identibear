@@ -83,7 +83,7 @@ def mp4_to_jpg_with_labels(video_path, label=1, test_size=0.2):
             with open(output_label_file, 'w') as f:
                 f.write(str(label))
         label+=1
-    print(f"Saved {len(train_frames)} frames to {train_images_dir} and {len(test_frames)} frames to {test_images_dir}")
+    # print(f"Saved {len(train_frames)} frames to {train_images_dir} and {len(test_frames)} frames to {test_images_dir}")
 
 def add_lfw_to_directories(test_size=0.2):
     

@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import base64
+import os
 
 # open css file
 with open('./style/styles.css') as f:
@@ -68,6 +69,12 @@ with button_col2:
 render_collections(st.session_state.collection_count)
 
 uploadButton = st.button("Upload All")
+cameraButton = st.button("Activate Bear")
+
+if cameraButton:
+    os.system("python webcam.py")
+    st.write("Script has been run.")
+
 if uploadButton:
      for i in range(st.session_state.collection_count):
         name = st.session_state.collection_dict.get(f'name_{i}')

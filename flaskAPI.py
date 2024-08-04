@@ -57,6 +57,7 @@ dictOfNames = {
 listOfNames = ["stranger","josh","andy","james","junnur"]
 listOfPredicts = []
 
+
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
@@ -71,35 +72,17 @@ def delayed_function():
     time.sleep(5)  # Delay for 5 seconds
     print("Function executed after delay")
 
-@app.route('/predict', methods = ['POST'])
-def webcamPredict():
-    # output = request.json
-    # print(output["class"])
 
-    output = request.form.get('class', '')
-    print(output)
 
-    listOfPredicts.append(output)
-    if (listOfPredicts[listOfPredicts.len-1] != listOfPredicts[listOfPredicts.len-2]):
-        listOfPredicts = []
-
-    if len(listOfPredicts) > 70 and not(0 in listOfPredicts):
-        personInfoDict = (dictOfNames[listOfPredicts[0]])
-        name = personInfoDict["name"]
-        relationship = personInfoDict["relationship"]
-        dateOfMeeting = personInfoDict["dateOfMeeting"]
-        sigMemory = personInfoDict["sigMemory"]
-        TTSandAPI({name,relationship,dateOfMeeting,sigMemory})
     
 
 
 def TTSandAPI(strings):
-
-    text = gTTS(text= strings[0]+" is your " + strings[1],lang='en', slow=False)
+    toSpeechQuery = f"This is {strings[0]} your {strings[1]} and you met on {strings[2]}. A memory you share is {strings[3]}"
+    text = gTTS(text=toSpeechQuery)
     text.save("audio.mp3")
     playsound("audio.mp3",True)
-    os.remove('audio.mp3') # TTS TEST, save later
-
+    os.remove('audio.mp3')
 
 @app.route('/infoUpload', methods=['POST'])
 def my_form_post():
@@ -114,6 +97,7 @@ def my_form_post():
 
     dictOfNames[dictOfNames.__len__] = {"name":name,"relationship":relationship,"dateOfMeeting":dateOfMeeting,"sigMemory":sigMemory}
     listOfNames.append(name)
+    
     print(dictOfNames)
     print(listOfNames)
 
@@ -159,8 +143,40 @@ def train():
     kmodel = model.train_model(os.path.join(os.getcwd(), 'train', 'images'), os.path.join(os.getcwd(), 'train', 'labels'))
     kmodel.save("model.keras")
 
+    print(dictOfNames)
     
+@app.route('/predict', methods = ['POST'])
 
+def webcamPredict():
+    # output = request.json
+    # print(output["class"])
+
+    output = request.form.get('class', '')
+    print(output)
+    
+    listOfNames.append(output)
+    listOfPredicts.append(output)
+ 
+    print(listOfPredicts)
+    if len(listOfPredicts)>1:
+        print("if1")
+        if (listOfPredicts[0] != listOfPredicts[len(listOfPredicts)-2]):
+            print("if2")
+            listOfPredicts.clear()
+           
+
+    if len(listOfPredicts) > 20 and not("0" in listOfPredicts):  
+        personInfoDict = (dictOfNames[int(listOfPredicts[12])])
+        name = personInfoDict["name"]
+        relationship = personInfoDict["relationship"]
+        dateOfMeeting = personInfoDict["dateOfMeeting"]
+        sigMemory = personInfoDict["sigMemory"]
+        print("woah")
+        strings = [name,relationship,dateOfMeeting,sigMemory]
+        TTSandAPI(strings)
+        listOfPredicts.clear()
+
+    return " "   
 
 if __name__ == '__main__':
     app.run(debug=True)

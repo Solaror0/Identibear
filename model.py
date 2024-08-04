@@ -86,13 +86,13 @@ def train_model(train_images_dir, train_labels_dir):
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
-    model.add(Dropout(0.25))
-    model.add(Dense(2, activation='softmax'))  # Adjust output layer for number of classes
+    model.add(Dropout(0.5))
+    model.add(Dense(3, activation='softmax'))  # Adjust output layer for number of classes
     optim = Adam(learning_rate=0.0025)
     model.compile(optimizer=optim, loss='categorical_crossentropy', metrics=['accuracy'])
     print(X_train.shape)
     print(y_train.shape)
-    model.fit(X_train, y_train, epochs=500, batch_size=32, shuffle=True, verbose=2)
+    model.fit(X_train, y_train, epochs=1000, batch_size=32, shuffle=True, verbose=2)
     return model
 
 
